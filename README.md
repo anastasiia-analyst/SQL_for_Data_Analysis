@@ -2,7 +2,7 @@
 
 ## 1. Context
 
-Hi! This is my project, which demonstrates my knowledge and skills in working with SQL and BigQuery.
+:computer: Hi! This is my project, which demonstrates my knowledge and skills in working with SQL and BigQuery.
 
 ## 2. About Dataset
 
