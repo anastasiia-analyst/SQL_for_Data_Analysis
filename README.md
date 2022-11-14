@@ -1,1 +1,121 @@
 # SQL_for_Data_Analysis
+
+## 1. Context
+
+Hi! This is my project, which demonstrates my knowledge and skills in working with SQL and BigQuery.
+
+## 2. About Dataset
+
+The dataset "Supermarket_Sales" is one of the historical sales of supermarket company which has recorded in 3 different branches for 3 months data. This dataset includes two tables: 
+1)	table with general sales information ["General_sales"](http://bit.ly/3tqKP79);
+2)	table with information about customer stratification rating ["Sales_rating"](http://bit.ly/3tqnse7).
+
+The original dataset is available at the [link](http://bit.ly/3Aae4iw).
+
+## 3. Attribute information
+
++ invoice_ID (invoice identification number)
++ branch (three branches are available identified by A, B and C)
++ city (location)
++ customer_type (Members for customers using member card and Normal for without member card)
++ gender (gender type of customer)
++ product_line (general item categorization groups)
++ unit_price (price of each product in $)
++ quantity (number of products purchased by customer)
++ tax (5% tax fee for customer buying)
++ total (total price including tax)
++ date (date of purchase)
++ time (purchase time)
++ payment (cash, credit card or ewallet)
++ cogs (cost of goods sold)
++ gross_margin_percentage (gross margin percentage)
++ gross_income (gross income)
++ rating (customer stratification rating on their overall shopping experience – on a scale of 1 to 10)
+
+## 4. Working with Queries
+
+**4.1. Overview of the main table:**
+```sql
+SELECT *
+FROM `Supermarket_Sales.General_sales`
+LIMIT 10;
+```
+
+**4.2. Cities in which purchases were made:**
+```sql
+SELECT DISTINCT city
+FROM `Supermarket_Sales.General_sales`
+ORDER BY city;
+```
+
+**4.3. Purchases in the "Home and lifestyle" category where the unit price is greater than or equal to $30 and the invoice ID starts with the number 5:**
+```sql
+SELECT *
+FROM `Supermarket_Sales.General_sales`
+WHERE product_line='Home and lifestyle' AND unit_price >= 30 AND invoice_ID LIKE '5%'
+ORDER BY unit_price DESC;
+```
+
+**4.4. Total gross income by branches:**
+```sql
+SELECT branch, ROUND (SUM (gross_income), 2) AS total_gross_income
+FROM `Supermarket_Sales.General_sales`
+GROUP BY branch
+ORDER BY total_gross_income DESC;
+```
+
+**4.5. Minimum and maximum prices by categories:**
+```sql
+SELECT product_line, MIN (unit_price) AS min_price, MAX (unit_price) AS max_price
+FROM `Supermarket_Sales.General_sales`
+GROUP BY product_line
+ORDER BY min_price, max_price;
+```
+
+**4.6. Average check by categories:**
+```sql
+SELECT product_line, ROUND (AVG (total), 2) AS avg_total_price
+FROM `Supermarket_Sales.General_sales`
+GROUP BY product_line
+ORDER BY avg_total_price;
+```
+
+**4.7. Information about purchase whose check is greater than the average check:**
+```sql
+SELECT invoice_ID, product_line, branch, ROUND (total, 2)
+FROM `Supermarket_Sales.General_sales`
+WHERE total > (SELECT AVG (total) FROM `Supermarket_Sales.General_sales`)
+ORDER BY total;
+```
+
+**4.8. Join two tables:**
+```sql
+SELECT t1.*, t2.rating
+FROM `Supermarket_Sales.General_sales` AS t1
+LEFT JOIN `Supermarket_Sales.Sales_rating` AS t2
+USING (invoice_ID);
+```
+
+**4.9.  Determine the rating category for purchases:**
+```sql
+SELECT invoice_ID, rating,
+CASE WHEN rating < 5 THEN 'bad rating'
+WHEN rating <= 7 THEN 'medium rating'
+ELSE 'good rating' END
+AS rating_category
+FROM `Supermarket_Sales.Sales_rating`
+ORDER BY rating;
+```
+
+**4.10. Join two tables and provide information about the purchase, branch, city, rating and rating category:**
+```sql
+SELECT t1.invoice_ID, t1.branch, t1.city, t2.rating,
+CASE WHEN t2.rating < 5 THEN 'bad rating'
+WHEN t2.rating <= 7 THEN 'medium rating'
+ELSE 'good rating'
+END
+FROM `Supermarket_Sales.General_sales` AS t1
+INNER JOIN `Supermarket_Sales.Sales_rating` AS t2
+USING (invoice_ID)
+ORDER BY t2.rating;
+```
