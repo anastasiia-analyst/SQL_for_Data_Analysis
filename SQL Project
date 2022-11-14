@@ -6,9 +6,9 @@ This is my project, which demonstrates my knowledge and skills in working with S
 
 The dataset "Supermarket_Sales" is one of the historical sales of supermarket company which has recorded in 3 different branches for 3 months data. 
 This dataset includes two tables: 
-1)	table with general sales information "General_sales";
-2)	table with information about customer stratification rating "Sales_rating".
-The original dataset is available at the link (https://www.kaggle.com/datasets/aungpyaeap/supermarket-sales?select=supermarket_sales+-+Sheet1.csv).
+1)	table with general sales information "General_sales" (http://bit.ly/3tqKP79);
+2)	table with information about customer stratification rating "Sales_rating" (http://bit.ly/3tqnse7).
+The original dataset is available at the link (http://bit.ly/3Aae4iw).
 
 3. Attribute information
 
