@@ -80,7 +80,7 @@ GROUP BY product_line
 ORDER BY avg_total_price;
 ```
 
-**4.7. Information about purchase whose check is greater than the average check:**
+**4.7. Information about purchases whose check is greater than the average check:**
 ```sql
 SELECT invoice_ID, product_line, branch, ROUND (total, 2)
 FROM `Supermarket_Sales.General_sales`
@@ -96,7 +96,7 @@ LEFT JOIN `Supermarket_Sales.Sales_rating` AS t2
 USING (invoice_ID);
 ```
 
-**4.9.  Determine the rating category for purchases:**
+**4.9.  Rating categories:**
 ```sql
 SELECT invoice_ID, rating,
 CASE WHEN rating < 5 THEN 'bad rating'
@@ -107,7 +107,7 @@ FROM `Supermarket_Sales.Sales_rating`
 ORDER BY rating;
 ```
 
-**4.10. Join two tables and provide information about the purchase, branch, city, rating and rating category:**
+**4.10. Іnformation about the purchase, branch, city, rating and rating category:**
 ```sql
 SELECT t1.invoice_ID, t1.branch, t1.city, t2.rating,
 CASE WHEN t2.rating < 5 THEN 'bad rating'
