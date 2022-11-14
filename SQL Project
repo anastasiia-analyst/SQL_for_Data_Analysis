@@ -92,3 +92,26 @@ SELECT t1.*, t2.rating
 FROM `Supermarket_Sales.General_sales` AS t1
 LEFT JOIN `Supermarket_Sales.Sales_rating` AS t2
 USING (invoice_ID);
+
+4.9.  Determine the rating category for purchases:
+
+SELECT invoice_ID, rating,
+CASE WHEN rating < 5 THEN 'bad rating'
+WHEN rating <= 7 THEN 'medium rating'
+ELSE 'good rating' END
+AS rating_category
+FROM `Supermarket_Sales.Sales_rating`
+ORDER BY rating;
+
+
+4.10. Join two tables and provide information about the purchase, branch, city, rating and rating category:
+
+SELECT t1.invoice_ID, t1.branch, t1.city, t2.rating,
+CASE WHEN t2.rating < 5 THEN 'bad rating'
+WHEN t2.rating <= 7 THEN 'medium rating'
+ELSE 'good rating'
+END
+FROM `Supermarket_Sales.General_sales` AS t1
+INNER JOIN `Supermarket_Sales.Sales_rating` AS t2
+USING (invoice_ID)
+ORDER BY t2.rating;
